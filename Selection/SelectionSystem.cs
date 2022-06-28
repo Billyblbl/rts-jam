@@ -8,6 +8,8 @@ public class SelectionSystem : Node2D {
 
 	[Export] public string selectActionName;
 	[Export] public string additiveModifier;
+	[Export] public string controlGroupEdit;
+	[Export] public string[] controlGroupKeys;
 	[Export] public Color selectionRectangleColorFill = new Color(0f, 1f, 0f, .5f);
 	[Export] public Color selectionRectangleColorBorder = Colors.Green;
 
@@ -18,11 +20,20 @@ public class SelectionSystem : Node2D {
 
 	public Selectable[] selection = new Selectable[0];
 	public Selectable[] hovered = new Selectable[0];
+	public Selectable[][] controlGroups = new Selectable[10][];
 
 	public override void _Input(InputEvent @event) {
 		base._Input(@event);
 		if (@event is InputEventMouseMotion eventMouseMotion) {
 			dragging = Input.IsActionPressed(selectActionName);
+		} else foreach (var (action, i) in controlGroupKeys.Select((a,i) => (a,i))) if (@event.IsAction(action) && @event.IsPressed()) {
+			if (Input.IsActionPressed(controlGroupEdit)) {
+				controlGroups[i] = selection;
+			} else {
+				HideIndicators();
+				selection = controlGroups[i];
+				ShowIndicators();
+			}
 		}
 	}
 
@@ -30,6 +41,16 @@ public class SelectionSystem : Node2D {
 		var min = new Vector2(Mathf.Min(A.x, B.x), Mathf.Min(A.y, B.y));
 		var max = new Vector2(Mathf.Max(A.x, B.x), Mathf.Max(A.y, B.y));
 		return new Rect2(min, max - min);
+	}
+
+	void HideIndicators() {
+		if (selection != null) foreach (var selectable in selection) { selectable.selectIndicator.Hide(); }
+		if (hovered != null) foreach (var selectable in hovered) { selectable.hoverIndicator.Hide(); }
+	}
+
+	void ShowIndicators() {
+		if (selection != null) foreach (var selectable in selection) { selectable.selectIndicator.Show(); }
+		if (hovered != null) foreach (var selectable in hovered) { selectable.hoverIndicator.Show(); }
 	}
 
 	public override void _Process(float delta) {
@@ -42,9 +63,7 @@ public class SelectionSystem : Node2D {
 		selectEnd = mousePos;
 		selectionRect = RectContaining(selectStart, selectEnd);
 
-		foreach (var selectable in selection) { selectable.selectIndicator.Hide(); }
-		foreach (var selectable in hovered) { selectable.hoverIndicator.Hide(); }
-
+		HideIndicators();
 		if (selectDown) {
 			selectStart = mousePos;
 			selectEnd = mousePos;
@@ -53,12 +72,8 @@ public class SelectionSystem : Node2D {
 			dragging = false;
 		}
 		hovered = ResolveSelection();
-
-		foreach (var selectable in selection) { selectable.selectIndicator.Show(); }
-		foreach (var selectable in hovered) { selectable.hoverIndicator.Show(); }
-
+		ShowIndicators();
 		Update();
-
 	}
 
 	Selectable[] ResolveSelection(Selectable[] oldSelection = null) {

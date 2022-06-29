@@ -9,6 +9,7 @@ public class SelectionSystem : Node2D {
 	[Export] public string selectActionName;
 	[Export] public string additiveModifier;
 	[Export] public string controlGroupEdit;
+	[Export] public string contextOrder;
 	[Export] public string[] controlGroupKeys;
 	[Export] public Color selectionRectangleColorFill = new Color(0f, 1f, 0f, .5f);
 	[Export] public Color selectionRectangleColorBorder = Colors.Green;
@@ -18,14 +19,22 @@ public class SelectionSystem : Node2D {
 	Vector2 selectEnd;
 	bool dragging = false;
 
-	public Selectable[] selection = new Selectable[0];
-	public Selectable[] hovered = new Selectable[0];
-	public Selectable[][] controlGroups = new Selectable[10][];
+	public Controllable[] selection = new Controllable[0];
+	public Controllable[] hovered = new Controllable[0];
+	public Controllable[][] controlGroups = new Controllable[10][];
+
+	public void GiveOrderToSelection(Order order, bool additive = false) {
+		foreach (var controllable in selection) {
+			controllable.GiveOrder(order, additive);
+		}
+	}
 
 	public override void _Input(InputEvent @event) {
 		base._Input(@event);
 		if (@event is InputEventMouseMotion eventMouseMotion) {
 			dragging = Input.IsActionPressed(selectActionName);
+		} else if (selection != null && selection.Length > 0 && @event.IsAction(contextOrder) && @event.IsPressed()) {
+			GiveOrderToSelection(ResolveContextOrder(GetGlobalMousePosition()), additive: Input.IsActionPressed(additiveModifier));
 		} else foreach (var (action, i) in controlGroupKeys.Select((a,i) => (a,i))) if (@event.IsAction(action) && @event.IsPressed()) {
 			if (Input.IsActionPressed(controlGroupEdit)) {
 				controlGroups[i] = selection;
@@ -35,6 +44,11 @@ public class SelectionSystem : Node2D {
 				ShowIndicators();
 			}
 		}
+	}
+
+	public Order ResolveContextOrder(Vector2 position) {
+		//TODO different unit orders
+		return new TestOrder(position, this);
 	}
 
 	Rect2 RectContaining(Vector2 A, Vector2 B) {
@@ -76,8 +90,8 @@ public class SelectionSystem : Node2D {
 		Update();
 	}
 
-	Selectable[] ResolveSelection(Selectable[] oldSelection = null) {
-		var newSelection = oldSelection != null ? new List<Selectable>(oldSelection) : new List<Selectable>();
+	Controllable[] ResolveSelection(Controllable[] oldSelection = null) {
+		var newSelection = oldSelection != null ? new List<Controllable>(oldSelection) : new List<Controllable>();
 		if (dragging) {
 			newSelection.AddRange(GetSelectablesInRect(selectionRect).Where(s => !newSelection.Contains(s)));
 		} else {
@@ -88,10 +102,10 @@ public class SelectionSystem : Node2D {
 		return newSelection.ToArray();
 	}
 
-	Selectable[] GetSelectablesInRect(Rect2 rect) => Selectable.Population.Where(s => rect.HasPoint(s.GlobalPosition)).ToArray();
-	Selectable	GetSelectableUnderCursor(Vector2 cursor) => Selectable.Population
+	Controllable[] GetSelectablesInRect(Rect2 rect) => Controllable.Population.Where(s => rect.HasPoint(s.GlobalPosition)).ToArray();
+	Controllable	GetSelectableUnderCursor(Vector2 cursor) => Controllable.Population
 			.Where(s => s.selectArea.HasPoint(s.ToLocal(cursor)))
-			.Aggregate<Selectable, Selectable>(null, (smaller, next) => smaller != null && (smaller.GlobalPosition - cursor).Length() < (next.GlobalPosition - cursor).Length() ? smaller : next);
+			.Aggregate<Controllable, Controllable>(null, (smaller, next) => smaller != null && (smaller.GlobalPosition - cursor).Length() < (next.GlobalPosition - cursor).Length() ? smaller : next);
 
 	public override void _Draw() {
 		if (dragging) {

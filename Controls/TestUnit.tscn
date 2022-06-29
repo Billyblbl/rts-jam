@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
-[ext_resource path="res://Selection/Controllable.cs" type="Script" id=2]
+[ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=1]
+[ext_resource path="res://Controls/Controllable.cs" type="Script" id=2]
 [ext_resource path="res://Movement/PathFindAgent.cs" type="Script" id=3]
-[ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -16,21 +16,21 @@ visible = false
 modulate = Color( 0.0784314, 1, 0, 1 )
 position = Vector2( 40, -40 )
 scale = Vector2( 0.4, 0.4 )
-texture = ExtResource( 1 )
+texture = ExtResource( 4 )
 
 [node name="selectIndicator" type="Sprite" parent="."]
 visible = false
 modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 40, -40 )
 scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 1 )
+texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 z_index = -1
-texture = ExtResource( 1 )
+texture = ExtResource( 4 )
 
 [node name="Controllable" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -40,7 +40,7 @@ selectArea = Rect2( -32, -32, 64, 64 )
 
 [node name="PathFindAgent" type="Node2D" parent="."]
 script = ExtResource( 3 )
-navSlot = ExtResource( 4 )
+navSlot = ExtResource( 1 )
 body = NodePath("..")
 speed = 100.0
 waypointThreshold = 0.1

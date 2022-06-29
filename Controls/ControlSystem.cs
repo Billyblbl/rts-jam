@@ -4,7 +4,7 @@ using System.Linq;
 
 // #nullable enable
 
-public class SelectionSystem : Node2D {
+public class ControlSystem : Node2D {
 
 	[Export] public string selectActionName;
 	[Export] public string additiveModifier;

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Selection/TestUnit.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Selection/SelectionSystem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Controls/TestUnit.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Controls/SelectionSystem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=3]
 [ext_resource path="res://InstancedGenerics/Nav2DProvider.cs" type="Script" id=4]
 

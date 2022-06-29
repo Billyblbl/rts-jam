@@ -10,9 +10,7 @@ public abstract class Order : Node2D {
 
 	public int participants { get => _participants; set {
 		_participants = value;
-		GD.Print(string.Format("Order {0}, participants {1}", Name, participants));
 		if (participants == 0){
-			GD.Print("order finished, buebye");
 			QueueFree();
 		}
 	}}

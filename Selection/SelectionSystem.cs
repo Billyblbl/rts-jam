@@ -48,7 +48,7 @@ public class SelectionSystem : Node2D {
 
 	public Order ResolveContextOrder(Vector2 position) {
 		//TODO different unit orders
-		return new TestOrder(position, this);
+		return new MoveOrder(position, this);
 	}
 
 	Rect2 RectContaining(Vector2 A, Vector2 B) {

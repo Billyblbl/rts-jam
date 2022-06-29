@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Selection/TestSelectable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Selection/TestUnit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Selection/SelectionSystem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=3]
+[ext_resource path="res://InstancedGenerics/Nav2DProvider.cs" type="Script" id=4]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 252, 246, 33, 560, 22, 271, 186, 130, 635, 238, 246, 549, 393, 7, 916, 15, 873, 87, 189, 116, 36, 24, 928, 104, 916, 583, 526, 558 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0 ), PoolIntArray( 6, 7, 8, 9, 10 ), PoolIntArray( 2, 10, 9, 3 ), PoolIntArray( 0, 3, 11, 4 ), PoolIntArray( 4, 11, 12, 13 ) ]
+outlines = [ PoolVector2Array( 186, 130, 928, 104, 916, 583, 526, 558, 635, 238, 246, 549, 252, 246, 33, 560, 22, 271, 36, 24, 393, 7, 916, 15, 873, 87, 189, 116 ) ]
 
 [node name="Node2D" type="Node2D"]
 
@@ -9,40 +16,20 @@
 position = Vector2( 752, 479 )
 
 [node name="Test Selectable2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 409, 355 )
+position = Vector2( 704, 228 )
 
 [node name="Test Selectable3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 483, 444 )
-
-[node name="Test Selectable4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 581, 207 )
-
-[node name="Test Selectable5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 760, 292 )
-
-[node name="Test Selectable6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 378, 244 )
-
-[node name="Test Selectable7" parent="." instance=ExtResource( 1 )]
-position = Vector2( 546, 84 )
-
-[node name="Test Selectable8" parent="." instance=ExtResource( 1 )]
-position = Vector2( 622, 430 )
-
-[node name="Test Selectable9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 732, 150 )
-
-[node name="Test Selectable10" parent="." instance=ExtResource( 1 )]
-position = Vector2( 296, 121 )
-
-[node name="Test Selectable11" parent="." instance=ExtResource( 1 )]
-position = Vector2( 933, 343 )
-
-[node name="Test Selectable12" parent="." instance=ExtResource( 1 )]
-position = Vector2( 310, 458 )
-
-[node name="Test Selectable13" parent="." instance=ExtResource( 1 )]
-position = Vector2( 180, 388 )
+position = Vector2( 399, 284 )
 
 [node name="SelectionSystem" parent="." instance=ExtResource( 2 )]
 z_index = 4096
+
+[node name="TestProvider" type="Node" parent="."]
+script = ExtResource( 4 )
+slot = ExtResource( 3 )
+instance = NodePath("../Navigation2D")
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+navpoly = SubResource( 1 )

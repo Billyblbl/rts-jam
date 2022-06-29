@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://InstancedGenerics/Nav2DSlot.cs" type="Script" id=1]
+
+[resource]
+resource_name = "TestSlot"
+script = ExtResource( 1 )

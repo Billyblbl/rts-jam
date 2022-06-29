@@ -41,6 +41,7 @@ public class Controllable : Node2D {
 		if (!idle) currentOrder.Stop(GetParent());
 		foreach (var cancelled in orders) cancelled.participants--;
 		orders.Clear();
+		idle = true;
 	}
 
 	public override void _Ready() {

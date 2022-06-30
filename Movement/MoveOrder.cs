@@ -9,16 +9,18 @@ public class MoveOrder : Order {
 		GD.Print(string.Format("New Move Order at {0}", position));
 	}
 
-	public override void Start(Node data) {
+	public override bool Start(Node data) {
 		var pathfind = data.GetNodeOrNull<PathFindAgent>(typeof(PathFindAgent).Name);
-		if (pathfind == null) return;
-		pathfind.target = this;
+		if (pathfind == null) return false;
+		pathfind.targetDestination = GlobalPosition;
+		pathfind.SetProcess(true);
+		return true;
 	}
 
 	public override void Stop(Node data) {
 		var pathfind = data.GetNodeOrNull<PathFindAgent>(typeof(PathFindAgent).Name);
 		if (pathfind == null) return;
-		pathfind.target = null;
+		pathfind.SetProcess(false);
 	}
 
 	public override bool Update(Node data) {

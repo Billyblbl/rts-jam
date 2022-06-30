@@ -61,9 +61,12 @@ public class Controllable : Node2D {
 	}
 
 	public override void _Process(float delta) {
-		if (idle && orders.Count > 0) {
-			idle = false;
-			currentOrder.Start(GetParent());
+		if (idle) {
+			while(orders.Count > 0 && !currentOrder.Start(GetParent())) {
+				currentOrder.participants--;
+				orders.Dequeue();
+			}
+			idle = orders.Count == 0;
 		}
 		if (!idle && currentOrder.Update(GetParent())) {
 			StopOrder(currentOrder);

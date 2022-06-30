@@ -35,7 +35,7 @@ public class ControlSystem : Node2D {
 			dragging = Input.IsActionPressed(selectActionName);
 		} else if (selection != null && selection.Length > 0 && @event.IsAction(contextOrder) && @event.IsPressed()) {
 			GiveOrderToSelection(ResolveContextOrder(GetGlobalMousePosition()), additive: Input.IsActionPressed(additiveModifier));
-		} else foreach (var (action, i) in controlGroupKeys.Select((a,i) => (a,i))) if (@event.IsAction(action) && @event.IsPressed()) {
+		} else foreach (var (action, i) in controlGroupKeys.Select((a, i) => (a, i))) if (@event.IsAction(action) && @event.IsPressed()) {
 			if (Input.IsActionPressed(controlGroupEdit)) {
 				controlGroups[i] = selection;
 			} else {
@@ -48,6 +48,9 @@ public class ControlSystem : Node2D {
 
 	public Order ResolveContextOrder(Vector2 position) {
 		//TODO different unit orders
+		var target = GetSelectableUnderCursor(position);
+		if (target != null) return new FollowOrder(target, this);
+
 		return new MoveOrder(position, this);
 	}
 
@@ -94,16 +97,14 @@ public class ControlSystem : Node2D {
 		var newSelection = oldSelection != null ? new List<Controllable>(oldSelection) : new List<Controllable>();
 		if (dragging) {
 			newSelection.AddRange(GetSelectablesInRect(selectionRect).Where(s => !newSelection.Contains(s)));
-		} else {
-			var underCursor = GetSelectableUnderCursor(selectEnd);
-			if (underCursor != null)
-			newSelection.Add(underCursor);
 		}
+		var underCursor = GetSelectableUnderCursor(selectEnd);
+		if (underCursor != null && !newSelection.Contains(underCursor)) newSelection.Add(underCursor);
 		return newSelection.ToArray();
 	}
 
 	Controllable[] GetSelectablesInRect(Rect2 rect) => Controllable.Population.Where(s => rect.HasPoint(s.GlobalPosition)).ToArray();
-	Controllable	GetSelectableUnderCursor(Vector2 cursor) => Controllable.Population
+	Controllable GetSelectableUnderCursor(Vector2 cursor) => Controllable.Population
 			.Where(s => s.selectArea.HasPoint(s.ToLocal(cursor)))
 			.Aggregate<Controllable, Controllable>(null, (smaller, next) => smaller != null && (smaller.GlobalPosition - cursor).Length() < (next.GlobalPosition - cursor).Length() ? smaller : next);
 

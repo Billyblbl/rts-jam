@@ -8,8 +8,9 @@ public class TestOrder : Order {
 		Name = GetType().FullName;
 	}
 
-	public override void Start(Node data) {
+	public override bool Start(Node data) {
 		GD.Print(string.Format("Starting Order {0} on node {1}", Name, data.Name));
+		return true;
 	}
 
 

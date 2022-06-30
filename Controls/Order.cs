@@ -15,9 +15,10 @@ public abstract class Order : Node2D {
 		}
 	}}
 
-	public abstract void Start(Node data);
+	//Returns true if order was sucessfully started for data, false if it was rejected
+	public abstract bool Start(Node data);
 
-	//Return true to indicate execution should end
+	//Return true to indicate execution should end for data
 	public abstract bool Update(Node data);
 
 	public abstract void Stop(Node data);

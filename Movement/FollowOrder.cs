@@ -3,7 +3,7 @@ using System.Linq;
 
 public class FollowOrder : Order {
 
-	Node2D target;
+	public Node2D target;
 
 	public FollowOrder(Node2D target, Node scope) : base(scope) {
 		this.target = target;

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://TestUnit/TestUnit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Controls/SelectionSystem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=3]
 [ext_resource path="res://InstancedGenerics/Nav2DProvider.cs" type="Script" id=4]
+[ext_resource path="res://Controls/CameraController.cs" type="Script" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 393, 7, 916, 15, 873, 87, 189, 116, 36, 24, 22, 271, 186, 130, 2111, 73, 2017, 524, 1804, 530, 1733, 755, 2029, 740, 2066, 1247, 1572, 1222, 1566, 987, 1155, 991, 1142.72, 1235.01, 549, 1253, 359, 1255, 245, 1220, -15, 1232, 106, 1259 )
@@ -34,3 +35,11 @@ instance = NodePath("../Navigation2D")
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 position = Vector2( 38, 5 )
 navpoly = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 711, 409 )
+current = true
+script = ExtResource( 5 )
+zoomControl = "controls_camera_zoom"
+sensitivity = -0.1
+spring = 10.0

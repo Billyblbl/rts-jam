@@ -43,7 +43,7 @@ public class PathFindAgent : Node2D {
 			currentWaypoint++;
 		} else {
 			var direction = GlobalPosition.DirectionTo(path[currentWaypoint]);
-			var velocity = direction * speed;
+			var velocity = direction * Mathf.Clamp(speed, 0, manhattanDistanceToDestination);
 			self.MoveAndSlide(velocity);
 		}
 	}

@@ -6,9 +6,9 @@
 [ext_resource path="res://InstancedGenerics/Nav2DProvider.cs" type="Script" id=4]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 252, 246, 33, 560, 22, 271, 186, 130, 635, 238, 246, 549, 393, 7, 916, 15, 873, 87, 189, 116, 36, 24, 928, 104, 916, 583, 526, 558 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0 ), PoolIntArray( 6, 7, 8, 9, 10 ), PoolIntArray( 2, 10, 9, 3 ), PoolIntArray( 0, 3, 11, 4 ), PoolIntArray( 4, 11, 12, 13 ) ]
-outlines = [ PoolVector2Array( 186, 130, 928, 104, 916, 583, 526, 558, 635, 238, 246, 549, 252, 246, 33, 560, 22, 271, 36, 24, 393, 7, 916, 15, 873, 87, 189, 116 ) ]
+vertices = PoolVector2Array( 393, 7, 916, 15, 873, 87, 189, 116, 36, 24, 22, 271, 186, 130, 2111, 73, 2017, 524, 1804, 530, 1733, 755, 2029, 740, 2066, 1247, 1572, 1222, 1566, 987, 1155, 991, 1142.72, 1235.01, 549, 1253, 359, 1255, 245, 1220, -15, 1232, 106, 1259 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3, 6 ), PoolIntArray( 6, 7, 8, 9 ), PoolIntArray( 10, 11, 12, 13, 14 ), PoolIntArray( 6, 9, 10, 14, 15 ), PoolIntArray( 5, 6, 15, 16, 17, 18, 19 ), PoolIntArray( 20, 5, 19, 21 ) ]
+outlines = [ PoolVector2Array( 186, 130, 2111, 73, 2017, 524, 1804, 530, 1733, 755, 2029, 740, 2066, 1247, 1572, 1222, 1566, 987, 1155, 991, 1142.72, 1235.01, 549, 1253, 359, 1255, 245, 1220, 106, 1259, -15, 1232, 22, 271, 36, 24, 393, 7, 916, 15, 873, 87, 189, 116 ) ]
 
 [node name="Node2D" type="Node2D"]
 
@@ -32,4 +32,5 @@ instance = NodePath("../Navigation2D")
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+position = Vector2( 38, 5 )
 navpoly = SubResource( 1 )

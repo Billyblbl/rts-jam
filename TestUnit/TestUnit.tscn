@@ -49,7 +49,7 @@ script = ExtResource( 3 )
 navSlot = ExtResource( 1 )
 body = NodePath("..")
 speed = 100.0
-waypointThreshold = 0.1
+waypointThreshold = 5.0
 
 [node name="LifeTime_Dying" type="Timer" parent="."]
 one_shot = true

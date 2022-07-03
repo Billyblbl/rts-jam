@@ -17,6 +17,8 @@ public abstract class Order : Node2D {
 
 	public Node2D context;
 
+	public bool usableContext { get => context != null && IsInstanceValid(context); }
+
 	public virtual bool Start(Node2D actor) {
 		behaviorTree.EnterState((context ?? this, actor));
 		return true;

@@ -8,4 +8,10 @@ public class MoveOrder : Order {
 		GD.Print(string.Format("New Move Order at {0}", position));
 	}
 
+	public override bool Update(Node2D actor) {
+		var path = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
+		if (path.manhattanDistanceToDestination < path.waypointThreshold) return false;
+		return base.Update(actor);
+	}
+
 }

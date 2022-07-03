@@ -11,9 +11,17 @@ public class Weapon : Node2D {
 	float lastAttack = 0;
 	[Export] public bool enableDebugTrigger = false;
 
+	ulong start;
+	public override void _Ready() {
+		base._Ready();
+		start = OS.GetSystemTimeMsecs();
+	}
+
 	public override void _Process(float delta) {
 		base._Process(delta);
-		var now = (float)OS.GetSystemTimeMsecs() / 1000f;
+		var now = (float)(OS.GetSystemTimeMsecs() - start) / 1000f;
+
+		// GD.Print(string.Format("attacking :{0}, last attack {1}, now {2}, time till next attack {3}", attacking, lastAttack, now, lastAttack + attackDelay - now));
 		if (attacking && now - lastAttack > attackDelay) {
 			Attack(now);
 		}

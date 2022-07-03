@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=1]
 [ext_resource path="res://Controls/Controllable.cs" type="Script" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://Misc/LifeTime.cs" type="Script" id=5]
 [ext_resource path="res://Misc/Health.cs" type="Script" id=6]
 [ext_resource path="res://TestUnit/health_gauge_test_unit.tres" type="Resource" id=7]
-[ext_resource path="res://Weapon.cs" type="Script" id=8]
+[ext_resource path="res://Combat/Weapon.cs" type="Script" id=8]
 [ext_resource path="res://TestUnit/TestAttack.tscn" type="PackedScene" id=9]
+[ext_resource path="res://TestUnit/StateLabel.cs" type="Script" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -61,14 +62,27 @@ value = ExtResource( 7 )
 
 [node name="Weapon" type="Node2D" parent="."]
 script = ExtResource( 8 )
-attackSpawn = Vector2( 0, -60 )
+attackDelay = 0.1
+attackSpawn = Vector2( 60, 0 )
+attackRange = 200.0
 attack = ExtResource( 9 )
 enableDebugTrigger = true
 
 [node name="Sprite" type="Sprite" parent="Weapon"]
 modulate = Color( 0, 1, 0.109804, 1 )
-position = Vector2( 0, -30 )
+position = Vector2( 30, 1 )
+rotation = 1.5708
 scale = Vector2( 0.5, 1 )
 texture = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 51.0
+margin_top = -55.0
+margin_right = 369.0
+margin_bottom = 28.0
+text = "Current State path"
+autowrap = true
+script = ExtResource( 10 )
+controlablePath = NodePath("../Controllable")
 
 [connection signal="OnDepleted" from="Health" to="LifeTime_Dying" method="start" flags=6 binds= [ -1.0 ]]

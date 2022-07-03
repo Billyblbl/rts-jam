@@ -48,8 +48,9 @@ public class ControlSystem : Node2D {
 
 	public Order ResolveContextOrder(Vector2 position) {
 		//TODO different unit orders
+
 		var target = GetSelectableUnderCursor(position);
-		if (target != null) return new FollowOrder(target, this);
+		if (target != null) return new AttackOrder(target, this);
 
 		return new MoveOrder(position, this);
 	}

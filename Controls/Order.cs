@@ -2,24 +2,29 @@ using Godot;
 
 public abstract class Order : Node2D {
 
-	public Order(Node scope) {
-		scope.AddChild(this, legibleUniqueName:true);
+	public Order(Node parent, BehaviorState behaviorTree) {
+		parent.AddChild(this, legibleUniqueName:true);
+		this.behaviorTree = behaviorTree;
 	}
 
-	int _participants = 0;
+	public BehaviorState behaviorTree;
 
+	int _participants = 0;
 	public int participants { get => _participants; set {
 		_participants = value;
-		if (participants == 0){
-			QueueFree();
-		}
+		if (participants == 0) QueueFree();
 	}}
 
-	//Returns true if order was sucessfully started for data, false if it was rejected
-	public abstract bool Start(Node data);
+	public Node2D context;
 
-	//Return true to indicate execution should end for data
-	public abstract bool Update(Node data);
+	public virtual bool Start(Node2D actor) {
+		behaviorTree.EnterState((context ?? this, actor));
+		return true;
+	}
+	public virtual bool Update(Node2D actor) {
+		behaviorTree.StayState((context ?? this, actor));
+		return true;
+	}
+	public virtual void Stop(Node2D actor) => behaviorTree.ExitState((this, actor));
 
-	public abstract void Stop(Node data);
 }

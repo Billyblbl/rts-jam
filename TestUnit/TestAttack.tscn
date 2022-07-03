@@ -5,6 +5,7 @@
 [ext_resource path="res://Misc/LifeTime.cs" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 30, 32.5 )
 
 [node name="Bullet" type="RigidBody2D"]
 gravity_scale = 0.0
@@ -13,13 +14,15 @@ damage = 10.0
 speed = 500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -6.5 )
+position = Vector2( 6.4, 0.200001 )
+rotation = 1.5708
 scale = Vector2( 0.1, 0.2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 0, -6.5 )
+position = Vector2( 6.4, 0.2 )
+rotation = 1.5708
 scale = Vector2( 0.1, 0.2 )
 texture = ExtResource( 1 )
 

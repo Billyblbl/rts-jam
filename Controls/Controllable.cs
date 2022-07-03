@@ -12,6 +12,8 @@ public class Controllable : Node2D {
 	public Sprite hoverIndicator;
 	public Sprite selectIndicator;
 
+	public List<BehaviorState> statePath = new List<BehaviorState>();
+
 	Queue<Order> orders = new Queue<Order>();
 	public Order currentOrder { get => orders.Count > 0 ? orders.Peek() : null; }
 
@@ -25,7 +27,7 @@ public class Controllable : Node2D {
 	public void StopOrder(Order order) {
 		if (order == null) return;
 		if (order == currentOrder) {
-			order.Stop(GetParent());
+			order.Stop(GetParent<Node2D>());
 			order.participants--;
 			orders.Dequeue();
 			idle = true;
@@ -38,7 +40,7 @@ public class Controllable : Node2D {
 	}
 
 	public void StopAllOrders() {
-		if (!idle) currentOrder.Stop(GetParent());
+		if (!idle) currentOrder.Stop(GetParent<Node2D>());
 		foreach (var cancelled in orders) cancelled.participants--;
 		orders.Clear();
 		idle = true;
@@ -62,15 +64,15 @@ public class Controllable : Node2D {
 
 	public override void _Process(float delta) {
 		if (idle) {
-			while(orders.Count > 0 && !currentOrder.Start(GetParent())) {
+			while(orders.Count > 0 && !currentOrder.Start(GetParent<Node2D>())) {
 				currentOrder.participants--;
 				orders.Dequeue();
 			}
 			idle = orders.Count == 0;
 		}
-		if (!idle && currentOrder.Update(GetParent())) {
+		if (!idle && !currentOrder.Update(GetParent<Node2D>())) {
 			StopOrder(currentOrder);
-			if (orders.Count > 0) currentOrder.Start(GetParent());
+			if (orders.Count > 0) currentOrder.Start(GetParent<Node2D>());
 			else idle = true;
 		}
 	}

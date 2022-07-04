@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Movement/PathFindAgent.cs" type="Script" id=1]
+[ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=2]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 1, 0, 0, 1, 0, 1, 1, 1 )
+
+[node name="PathFindAgent" type="Node2D"]
+script = ExtResource( 1 )
+navSlot = ExtResource( 2 )
+body = NodePath("..")
+speed = 100.0
+waypointThreshold = 5.0
+steeringRays = [ NodePath("RayCasts/Middle"), NodePath("RayCasts/Right"), NodePath("RayCasts/Right2"), NodePath("RayCasts/Left"), NodePath("RayCasts/Left2"), NodePath("RayCasts/FarLeft"), NodePath("RayCasts/FarLeft2"), NodePath("RayCasts/FarRight"), NodePath("RayCasts/FarRight2") ]
+raysPivot = NodePath("RayCasts")
+rayProximity = SubResource( 1 )
+
+[node name="RayCasts" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="Middle" type="RayCast2D" parent="RayCasts"]
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="Right" type="RayCast2D" parent="RayCasts"]
+rotation = 0.3827
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="Right2" type="RayCast2D" parent="RayCasts"]
+rotation = 0.819674
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="Left" type="RayCast2D" parent="RayCasts"]
+rotation = -0.785398
+scale = Vector2( 1, 1 )
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="Left2" type="RayCast2D" parent="RayCasts"]
+rotation = -0.395678
+scale = Vector2( 1, 1 )
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="FarLeft" type="RayCast2D" parent="RayCasts"]
+rotation = 1.5708
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="FarLeft2" type="RayCast2D" parent="RayCasts"]
+rotation = 1.21369
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="FarRight" type="RayCast2D" parent="RayCasts"]
+rotation = -1.5708
+enabled = true
+cast_to = Vector2( 0, 100 )
+
+[node name="FarRight2" type="RayCast2D" parent="RayCasts"]
+rotation = -1.2078
+enabled = true
+cast_to = Vector2( 0, 100 )

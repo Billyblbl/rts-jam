@@ -5,14 +5,15 @@ public class Move : BehaviorState {
 		base.EnterState(data);
 		var pathfind = data.actor.GetNode<PathFindAgent>(typeof(PathFindAgent).Name);
 		pathfind.targetDestination = data.context.GlobalPosition;
-		pathfind.SetProcess(true);
+		pathfind.SetPhysicsProcess(true);
 	}
 
 	public override void ExitState((Node2D context, Node2D actor) data) {
 		base.ExitState(data);
 		var pathfind = data.actor.GetNodeOrNull<PathFindAgent>(typeof(PathFindAgent).Name);
 		if (pathfind == null) return;
-		pathfind.SetProcess(false);
+		pathfind.StopPathing();
+		pathfind.SetPhysicsProcess(false);
 	}
 
 }

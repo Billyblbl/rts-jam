@@ -10,7 +10,7 @@ public class MoveOrder : Order {
 
 	public override bool Update(Node2D actor) {
 		var path = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
-		if (path.manhattanDistanceToDestination < path.waypointThreshold) return false;
+		if (path.atDestination) return false;
 		return base.Update(actor);
 	}
 

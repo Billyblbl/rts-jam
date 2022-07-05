@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Movement/PathFindAgent.cs" type="Script" id=1]
 [ext_resource path="res://Movement/MapNavigation.tres" type="Resource" id=2]
+[ext_resource path="res://Movement/ProximitySensor.cs" type="Script" id=3]
 
 [sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 0, 0, 1, 0, 1, 1, 1 )
@@ -12,55 +13,48 @@ navSlot = ExtResource( 2 )
 body = NodePath("..")
 speed = 100.0
 waypointThreshold = 5.0
-steeringRays = [ NodePath("RayCasts/Middle"), NodePath("RayCasts/Right"), NodePath("RayCasts/Right2"), NodePath("RayCasts/Left"), NodePath("RayCasts/Left2"), NodePath("RayCasts/FarLeft"), NodePath("RayCasts/FarLeft2"), NodePath("RayCasts/FarRight"), NodePath("RayCasts/FarRight2") ]
-raysPivot = NodePath("RayCasts")
+steeringSensorsLeft = [ NodePath("RayCasts/Left/RayCast2D4"), NodePath("RayCasts/Left/RayCast2D"), NodePath("RayCasts/Left/RayCast2D2") ]
+steeringSensorsRight = [ NodePath("RayCasts/Right/RayCast2D"), NodePath("RayCasts/Right/RayCast2D5"), NodePath("RayCasts/Right/RayCast2D6") ]
 rayProximity = SubResource( 1 )
 
 [node name="RayCasts" type="Node2D" parent="."]
-rotation = -1.5708
 
-[node name="Middle" type="RayCast2D" parent="RayCasts"]
-enabled = true
-cast_to = Vector2( 0, 100 )
+[node name="Left" type="Node2D" parent="RayCasts"]
 
-[node name="Right" type="RayCast2D" parent="RayCasts"]
-rotation = 0.3827
+[node name="RayCast2D4" type="RayCast2D" parent="RayCasts/Left"]
+rotation = -2.81544
 enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )
 
-[node name="Right2" type="RayCast2D" parent="RayCasts"]
-rotation = 0.819674
+[node name="RayCast2D" type="RayCast2D" parent="RayCasts/Left"]
+rotation = -1.68698
 enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )
 
-[node name="Left" type="RayCast2D" parent="RayCasts"]
-rotation = -0.785398
-scale = Vector2( 1, 1 )
+[node name="RayCast2D2" type="RayCast2D" parent="RayCasts/Left"]
+rotation = -2.41851
 enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )
 
-[node name="Left2" type="RayCast2D" parent="RayCasts"]
-rotation = -0.395678
-scale = Vector2( 1, 1 )
-enabled = true
-cast_to = Vector2( 0, 100 )
+[node name="Right" type="Node2D" parent="RayCasts"]
 
-[node name="FarLeft" type="RayCast2D" parent="RayCasts"]
-rotation = 1.5708
+[node name="RayCast2D" type="RayCast2D" parent="RayCasts/Right"]
+rotation = -1.46065
 enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )
 
-[node name="FarLeft2" type="RayCast2D" parent="RayCasts"]
-rotation = 1.21369
+[node name="RayCast2D5" type="RayCast2D" parent="RayCasts/Right"]
+rotation = -0.30513
 enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )
 
-[node name="FarRight" type="RayCast2D" parent="RayCasts"]
-rotation = -1.5708
+[node name="RayCast2D6" type="RayCast2D" parent="RayCasts/Right"]
+rotation = -0.705979
 enabled = true
-cast_to = Vector2( 0, 100 )
-
-[node name="FarRight2" type="RayCast2D" parent="RayCasts"]
-rotation = -1.2078
-enabled = true
-cast_to = Vector2( 0, 100 )
+cast_to = Vector2( 0, 75 )
+script = ExtResource( 3 )

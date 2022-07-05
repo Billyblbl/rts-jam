@@ -6,6 +6,9 @@ public class Move : BehaviorState {
 		var pathfind = data.actor.GetNode<PathFindAgent>(typeof(PathFindAgent).Name);
 		pathfind.targetDestination = data.context.GlobalPosition;
 		pathfind.SetPhysicsProcess(true);
+		#if !GODOT_EXPORT
+		pathfind.trace.Clear();
+		#endif
 	}
 
 	public override void ExitState((Node2D context, Node2D actor) data) {

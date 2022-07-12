@@ -1,22 +1,19 @@
 using Godot;
 
 public class Move : BehaviorState {
-	public override void EnterState((Node2D context, Node2D actor) data) {
-		base.EnterState(data);
-		var pathfind = data.actor.GetNode<PathFindAgent>(typeof(PathFindAgent).Name);
-		pathfind.targetDestination = data.context.GlobalPosition;
+
+	public Move(Node2D actor, Vector2 position) : base(actor) {
+		var pathfind = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
+		pathfind.targetDestination = position;
 		pathfind.SetPhysicsProcess(true);
-		#if !GODOT_EXPORT
-		pathfind.trace.Clear();
-		#endif
+		GD.Print("Enable Move");
 	}
 
-	public override void ExitState((Node2D context, Node2D actor) data) {
-		base.ExitState(data);
-		var pathfind = data.actor.GetNodeOrNull<PathFindAgent>(typeof(PathFindAgent).Name);
-		if (pathfind == null) return;
-		pathfind.StopPathing();
+	public override void Exitstate() {
+		var pathfind = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
+		GD.Print("Disable Move");
 		pathfind.SetPhysicsProcess(false);
+		base.Exitstate();
 	}
 
 }

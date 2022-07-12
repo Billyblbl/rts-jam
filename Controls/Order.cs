@@ -1,13 +1,14 @@
 using Godot;
 
+using BehaviorStateFactory = System.Func<Godot.Node2D, BehaviorState>;
+
 public abstract class Order : Node2D {
 
-	public Order(Node parent, BehaviorState behaviorTree) {
+	protected BehaviorStateFactory factory;
+	public Order(Node parent, BehaviorStateFactory stateFactory = null) {
 		parent.AddChild(this, legibleUniqueName:true);
-		this.behaviorTree = behaviorTree;
+		factory = stateFactory;
 	}
-
-	public BehaviorState behaviorTree;
 
 	int _participants = 0;
 	public int participants { get => _participants; set {
@@ -15,18 +16,25 @@ public abstract class Order : Node2D {
 		if (participants == 0) QueueFree();
 	}}
 
-	public Node2D context;
-
-	public bool usableContext { get => context != null && IsInstanceValid(context); }
-
-	public virtual bool Start(Node2D actor) {
-		behaviorTree.EnterState((context ?? this, actor));
-		return true;
+	public virtual bool Start(Controllable actor) {
+		try {
+			var newNode = factory.Invoke(actor.GetParent<Node2D>());
+			actor.currentBehavior.AddChild(newNode);
+			return true;
+		} catch (System.Exception e) {
+			GD.PrintErr(e);
+			return false;
+		}
 	}
-	public virtual bool Update(Node2D actor) {
-		behaviorTree.StayState((context ?? this, actor));
-		return true;
+
+	public abstract bool Update(Controllable actor);
+
+	public virtual void Stop(Controllable actor) {
+		try {
+			actor.currentBehavior.Clear();
+		} catch (System.Exception e) {
+			GD.PrintErr(e);
+		}
 	}
-	public virtual void Stop(Node2D actor) => behaviorTree.ExitState((this, actor));
 
 }

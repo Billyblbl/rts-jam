@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using System.Linq;
 
 public class StateLabel : Label {
@@ -9,12 +10,20 @@ public class StateLabel : Label {
 	public override void _Ready() {
 		base._Ready();
 		controllable = GetNode<Controllable>(controlablePath);
-
 	}
 
 	public override void _Process(float delta) {
 		base._Process(delta);
-		Text = controllable.statePath.Select(state => state.Name).Aggregate("State", (a,b) => string.Format("{0}.{1}", a, b));
+
+		var state = controllable.currentBehavior;
+		var names = new List<string>();
+
+		while (state != null) {
+			names.Add(state.Name);
+			state = state.currentSubState;
+		}
+
+		Text = names.Aggregate("", (a,b) => string.Format("{0}.{1}", a, b));
 	}
 
 }

@@ -1,26 +1,25 @@
 using Godot;
 
 public class AttackOrder : Order {
-	public AttackOrder(Node2D target, Node parent) : base(parent, BehaviorTreeConfig.Trees.Attacking) {
-		context = target;
+
+	public Node2D target;
+	public AttackOrder(Node2D target, Node parent) : base(parent, actor => new Attacking(actor, target)) {
+		this.target = target;
 		Name = GetType().Name;
 		GD.Print(string.Format("New Attack Order on {0}", target.Name));
 	}
 
-	public override bool Start(Node2D actor) {
-		if (
-			!usableContext ||
-			context == actor ||
-			context.IsAParentOf(actor) ||
-			actor.IsAParentOf(context)
-		)
+	public override bool Start(Controllable actor) {
+		if (target.IsAParentOf(actor) || actor.IsAParentOf(target))
 			return false;
 		else
 			return base.Start(actor);
 	}
 
-	public override bool Update(Node2D actor) {
-		if (context == null || !Node.IsInstanceValid(context)) return false;
-		return base.Update(actor);
+	public override bool Update(Controllable actor) {
+		//TODO intel check
+		if (target == null || !Node.IsInstanceValid(target)) return false;
+		actor.currentBehavior.UpdateState(target);
+		return true;
 	}
 }

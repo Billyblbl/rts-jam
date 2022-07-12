@@ -4,15 +4,14 @@ using System.Linq;
 
 // #nullable enable
 
-public class Controllable : Node2D {
+public class Controllable : Node {
 	[Export] public NodePath hoverIndicatorPath;
 	[Export] public NodePath selectIndicatorPath;
 	[Export] public Rect2 selectArea;
 
 	public Sprite hoverIndicator;
 	public Sprite selectIndicator;
-
-	public List<BehaviorState> statePath = new List<BehaviorState>();
+	public BehaviorState currentBehavior;
 
 	Queue<Order> orders = new Queue<Order>();
 	public Order currentOrder { get => orders.Count > 0 ? orders.Peek() : null; }
@@ -27,7 +26,7 @@ public class Controllable : Node2D {
 	public void StopOrder(Order order) {
 		if (order == null) return;
 		if (order == currentOrder) {
-			order.Stop(GetParent<Node2D>());
+			order.Stop(this);
 			order.participants--;
 			orders.Dequeue();
 			idle = true;
@@ -40,7 +39,7 @@ public class Controllable : Node2D {
 	}
 
 	public void StopAllOrders() {
-		if (!idle) currentOrder.Stop(GetParent<Node2D>());
+		if (!idle) currentOrder.Stop(this);
 		foreach (var cancelled in orders) cancelled.participants--;
 		orders.Clear();
 		idle = true;
@@ -50,6 +49,7 @@ public class Controllable : Node2D {
 		base._Ready();
 		hoverIndicator = GetNode<Sprite>(hoverIndicatorPath);
 		selectIndicator = GetNode<Sprite>(selectIndicatorPath);
+		currentBehavior = new BehaviorState(GetParent<Node2D>());
 	}
 
 	public override void _EnterTree() {
@@ -64,26 +64,19 @@ public class Controllable : Node2D {
 
 	public override void _Process(float delta) {
 		if (idle) {
-			while(orders.Count > 0 && !currentOrder.Start(GetParent<Node2D>())) {
+			while(orders.Count > 0 && !currentOrder.Start(this)) {
 				currentOrder.participants--;
 				orders.Dequeue();
 			}
 			idle = orders.Count == 0;
 		}
-		if (!idle && !currentOrder.Update(GetParent<Node2D>())) {
+		if (!idle && !currentOrder.Update(this)) {
 			StopOrder(currentOrder);
-			if (orders.Count > 0) currentOrder.Start(GetParent<Node2D>());
+			if (orders.Count > 0) currentOrder.Start(this);
 			else idle = true;
 		}
 	}
 
 	public static List<Controllable> Population = new List<Controllable>();
 
-#if !GODOT_EXPORT
-	public override void _Draw() {
-		base._Draw();
-		DrawRect(selectArea, Colors.Red, filled: false);
-	}
-
-#endif
 }

@@ -2,38 +2,22 @@ using Godot;
 
 public class Attacking : BehaviorState {
 
-	[Export] public NodePath follow;
-	Follow followState;
-	[Export] public NodePath targetedFire;
-	TargetedFire targetedFireState;
+	public bool targetInRange(Node2D target) => actor.GlobalPosition.DistanceTo(target.GlobalPosition) < actor.GetNode<Weapon>(nameof(Weapon)).attackRange;
 
-	public override void _Ready() {
-		base._Ready();
-
-		followState = GetNode<Follow>(follow);
-		targetedFireState = GetNode<TargetedFire>(targetedFire);
-
-		subStates.connections = new BehaviorStateMachine.Connection[] {
-			new BehaviorStateMachine.Connection ( "Target in range", followState, targetedFireState, (data) => targetInRange(data) ),
-			new BehaviorStateMachine.Connection ( "Target out of range", targetedFireState, followState, (data) => !targetInRange(data) )
-		};
+	public Attacking(Node2D actor, Node2D target) : base(actor) {
+		AddChild(new Follow(actor, target));
 	}
 
-	public bool targetInRange((Node2D context, Node2D actor) data) {
-		var weapon = data.actor.GetNode<Weapon>(typeof(Weapon).Name);
+	public override void UpdateState<T>(T context) => UpdateAttack(context as Node2D);
 
-		// GD.Print(string.Format("Distance to target = {0}, required under {1}", data.context.GlobalPosition.DistanceTo(data.actor.GlobalPosition), weapon.attackRange));
-
-		return data.context.GlobalPosition.DistanceTo(data.actor.GlobalPosition) < weapon.attackRange;
-	}
-
-	public override void EnterState((Node2D context, Node2D actor) data) {
-		base.EnterState(data);
-		followState.EnterState(data);
-	}
-
-	public override void ExitState((Node2D context, Node2D actor) data) {
-		base.ExitState(data);
+	public void UpdateAttack(Node2D target) {
+		var subState = currentSubState;
+		if (subState is Follow && targetInRange(target)) {
+			TransitionTo(() => new TargetedFire(actor, target));
+		} else if (subState is TargetedFire && !targetInRange(target)) {
+			TransitionTo(() => new Follow(actor, target));
+		}
+		subState.UpdateState(target);
 	}
 
 }

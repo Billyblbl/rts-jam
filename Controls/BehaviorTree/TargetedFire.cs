@@ -2,25 +2,23 @@ using Godot;
 
 public class TargetedFire : BehaviorState {
 
-	public override void EnterState((Node2D context, Node2D actor) data) {
-		base.EnterState(data);
-		var weapon = data.actor.GetNode<Weapon>(typeof(Weapon).Name);
-		weapon.LookAt(data.context.GlobalPosition);
+	void UpdateTarget(Node2D target) {
+		var weapon = actor.GetNode<Weapon>(nameof(Weapon));
+		weapon.LookAt(target.GlobalPosition);
+	}
+
+	public override void UpdateState<T>(T context) => UpdateTarget(context as Node2D);
+
+	public TargetedFire(Node2D actor, Node2D target) : base(actor) {
+		var weapon = actor.GetNode<Weapon>(nameof(Weapon));
+		weapon.LookAt(target.GlobalPosition);
 		weapon.attacking = true;
-		// GD.Print(string.Format("TargetedFire context = {0}", data.context.Name));
 	}
 
-	public override void ExitState((Node2D context, Node2D actor) data) {
-		base.ExitState(data);
-		var weapon = data.actor.GetNode<Weapon>(typeof(Weapon).Name);
+	public override void Exitstate() {
+		var weapon = actor.GetNode<Weapon>(nameof(Weapon));
 		weapon.attacking = false;
-	}
-
-	public override void StayState((Node2D context, Node2D actor) data) {
-		base.StayState(data);
-		var weapon = data.actor.GetNode<Weapon>(typeof(Weapon).Name);
-		// GD.Print(string.Format("TargetedFire context = {0}", data.context.Name));
-		weapon.LookAt(data.context.GlobalPosition);
+		base.Exitstate();
 	}
 
 }

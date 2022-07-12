@@ -50,7 +50,7 @@ public class ControlSystem : Node2D {
 		//TODO different unit orders
 
 		var target = GetSelectableUnderCursor(position);
-		if (target != null) return new AttackOrder(target, this);
+		if (target != null) return new AttackOrder(target.GetParent<Node2D>(), this);
 
 		return new MoveOrder(position, this);
 	}
@@ -104,10 +104,10 @@ public class ControlSystem : Node2D {
 		return newSelection.ToArray();
 	}
 
-	Controllable[] GetSelectablesInRect(Rect2 rect) => Controllable.Population.Where(s => rect.HasPoint(s.GlobalPosition)).ToArray();
+	Controllable[] GetSelectablesInRect(Rect2 rect) => Controllable.Population.Where(s => rect.HasPoint(s.GetParent<Node2D>().GlobalPosition)).ToArray();
 	Controllable GetSelectableUnderCursor(Vector2 cursor) => Controllable.Population
-			.Where(s => s.selectArea.HasPoint(s.ToLocal(cursor)))
-			.Aggregate<Controllable, Controllable>(null, (smaller, next) => smaller != null && (smaller.GlobalPosition - cursor).Length() < (next.GlobalPosition - cursor).Length() ? smaller : next);
+			.Where(s => s.selectArea.HasPoint(s.GetParent<Node2D>().ToLocal(cursor)))
+			.Aggregate<Controllable, Controllable>(null, (smaller, next) => smaller != null && (smaller.GetParent<Node2D>().GlobalPosition - cursor).Length() < (next.GetParent<Node2D>().GlobalPosition - cursor).Length() ? smaller : next);
 
 	public override void _Draw() {
 		if (dragging) {

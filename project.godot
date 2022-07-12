@@ -14,10 +14,6 @@ config/name="Rts-jam"
 run/main_scene="res://TestArea.tscn"
 config/icon="res://icon.png"
 
-[autoload]
-
-BehaviorTreeConfig="*res://Controls/BehaviorTree/BehaviorTreeConfig.tscn"
-
 [input]
 
 controls_select={

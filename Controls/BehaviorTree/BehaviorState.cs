@@ -1,29 +1,34 @@
 using Godot;
 using System.Linq;
 
-public abstract class BehaviorState : Node, State<(Node2D context, Node2D actor)> {
+public class BehaviorState : Node {
 
-	public BehaviorStateMachine subStates;
-	public virtual void EnterState((Node2D context, Node2D actor) data) {
-		var controllable = data.actor.GetNode<Controllable>(typeof(Controllable).Name);
-		if (controllable.statePath.LastIndexOf(this) < 0) controllable.statePath.Add(this);
+	public BehaviorState(Node2D actor) {
+		this.actor = actor;
+		Name = GetType().Name;
 	}
-	public virtual void ExitState((Node2D context, Node2D actor) data) {
-		var controllable = data.actor.GetNode<Controllable>(typeof(Controllable).Name);
-		var path = controllable.statePath;
-		var index = path.LastIndexOf(this);
 
-		if (path.Count > index+1)
-			path[index + 1].ExitState(data);
-		path.RemoveAt(index);
-	}
-	public virtual void StayState((Node2D context, Node2D actor) data) {
-		subStates.UpdateTransitions(data);
+	public Node2D actor;
 
-		var controllable = data.actor.GetNode<Controllable>(typeof(Controllable).Name);
-		var path = controllable.statePath;
-		var index = path.LastIndexOf(this);
-		if (path.Count > index+1)
-			path[index + 1].StayState(data);
+	public BehaviorState currentSubState { get => GetChildren().Cast<Node>().FirstOrDefault(node => node is BehaviorState) as BehaviorState; }
+
+	public void Clear() {
+		foreach (var child in GetChildren().Cast<Node>()) {
+			if (child is BehaviorState state) state.Exitstate();
+		}
 	}
+
+	public T TransitionTo<T>(System.Func<T> stateFactory) where T : BehaviorState {
+		Clear();
+		var state = stateFactory.Invoke();
+		AddChild(state);
+		return state;
+	}
+
+	public virtual void UpdateState<T>(T context) { currentSubState?.UpdateState(context); }
+	public virtual void Exitstate() {
+		Clear();
+		QueueFree();
+	}
+
 }

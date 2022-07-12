@@ -37,7 +37,7 @@ polygon = PoolVector2Array( 463, 760, 677, 735, 926, 476, 1249, 465, 1597, 1260,
 position = Vector2( 307, 362 )
 
 [node name="Test Selectable2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 680, 481 )
+position = Vector2( 307, 362 )
 
 [node name="SelectionSystem" parent="." instance=ExtResource( 2 )]
 z_index = 4096

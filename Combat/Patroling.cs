@@ -11,8 +11,8 @@ public class Patroling : BehaviorState {
 		currentWayPointIndex = 0;
 	}
 
-	int NextIndex(List<Vector2> waypoints) => currentWayPointIndex < waypoints.Count - 1 ? ++currentWayPointIndex : 0;
-	int CurrentIndex(List<Vector2> waypoints) => currentWayPointIndex < waypoints.Count ? currentWayPointIndex : 0;
+	int NextIndex(List<Vector2> waypoints) => currentWayPointIndex < waypoints.Count - 1 ? ++currentWayPointIndex : currentWayPointIndex = 0;
+	int CurrentIndex(List<Vector2> waypoints) => currentWayPointIndex < waypoints.Count ? currentWayPointIndex : currentWayPointIndex = 0;
 
 	public override void UpdateState<T>(T context) => Update(context as List<Vector2>);
 

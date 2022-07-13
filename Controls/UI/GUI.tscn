@@ -1,0 +1,182 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Controls/UI/OrdersPanel.cs" type="Script" id=1]
+[ext_resource path="res://Controls/ControlSystemSlot.tres" type="Resource" id=2]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Orders" type="Control" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -132.0
+margin_right = 164.0
+script = ExtResource( 1 )
+controlSystem = ExtResource( 2 )
+slots = [ NodePath("GridContainer/Slot1/MarginContainer"), NodePath("GridContainer/Slot2/MarginContainer"), NodePath("GridContainer/Slot3/MarginContainer"), NodePath("GridContainer/Slot4/MarginContainer"), NodePath("GridContainer/Slot5/MarginContainer"), NodePath("GridContainer/Slot6/MarginContainer"), NodePath("GridContainer/Slot7/MarginContainer"), NodePath("GridContainer/Slot8"), NodePath("GridContainer/Slot9/MarginContainer"), NodePath("GridContainer/Slot10/MarginContainer"), NodePath("GridContainer/Slot11/MarginContainer"), NodePath("GridContainer/Slot12/MarginContainer") ]
+
+[node name="Background" type="Panel" parent="Orders"]
+self_modulate = Color( 0.984314, 0.0156863, 0.0156863, 0.501961 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Orders"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="Slot1" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_right = 33.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot2" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 37.0
+margin_right = 70.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot3" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 74.0
+margin_right = 107.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot4" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 111.0
+margin_right = 144.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot5" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_top = 38.0
+margin_right = 33.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot5"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot6" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 37.0
+margin_top = 38.0
+margin_right = 70.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot6"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot7" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 74.0
+margin_top = 38.0
+margin_right = 107.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot7"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot8" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 111.0
+margin_top = 38.0
+margin_right = 144.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot8"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot9" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_top = 76.0
+margin_right = 33.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot9"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot10" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 37.0
+margin_top = 76.0
+margin_right = 70.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot10"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot11" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 74.0
+margin_top = 76.0
+margin_right = 107.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot11"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Slot12" type="ColorRect" parent="Orders/GridContainer"]
+self_modulate = Color( 0, 0.764706, 0.843137, 0.360784 )
+margin_left = 111.0
+margin_top = 76.0
+margin_right = 144.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Orders/GridContainer/Slot12"]
+anchor_right = 1.0
+anchor_bottom = 1.0

@@ -2,11 +2,10 @@ using Godot;
 
 using BehaviorStateFactory = System.Func<Godot.Node2D, BehaviorState>;
 
-public abstract class Order : Node2D {
+public abstract class Order : Node {
 
 	protected BehaviorStateFactory factory;
-	public Order(Node parent, BehaviorStateFactory stateFactory = null) {
-		parent.AddChild(this, legibleUniqueName:true);
+	public Order(BehaviorStateFactory stateFactory = null) {
 		factory = stateFactory;
 	}
 

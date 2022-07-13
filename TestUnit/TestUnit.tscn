@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Movement/PathFindAgent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Controls/Controllable.cs" type="Script" id=2]
@@ -10,6 +10,10 @@
 [ext_resource path="res://Combat/Weapon.cs" type="Script" id=8]
 [ext_resource path="res://TestUnit/TestAttack.tscn" type="PackedScene" id=9]
 [ext_resource path="res://TestUnit/StateLabel.cs" type="Script" id=10]
+[ext_resource path="res://Controls/UI/AttackBlueprint.tres" type="Resource" id=11]
+[ext_resource path="res://Controls/UI/PatrolBlueprint.tres" type="Resource" id=12]
+[ext_resource path="res://Controls/UI/MoveOrderBlueprint.tres" type="Resource" id=13]
+[ext_resource path="res://Controls/UI/StopOrder.tres" type="Resource" id=14]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -43,6 +47,7 @@ script = ExtResource( 2 )
 hoverIndicatorPath = NodePath("../hoverIndicator")
 selectIndicatorPath = NodePath("../selectIndicator")
 selectArea = Rect2( -32, -32, 64, 64 )
+availableOrders = [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ]
 
 [node name="PathFindAgent" parent="." instance=ExtResource( 1 )]
 waypointThreshold = 50.0

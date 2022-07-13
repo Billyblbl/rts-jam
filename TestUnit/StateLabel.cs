@@ -20,7 +20,7 @@ public class StateLabel : Label {
 
 		while (state != null) {
 			names.Add(state.Name);
-			state = state.currentSubState;
+			state = state.GetCurrentSubState<BehaviorState>();
 		}
 
 		Text = names.Aggregate("", (a,b) => string.Format("{0}.{1}", a, b));

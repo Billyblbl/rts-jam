@@ -5,6 +5,8 @@
 [node name="SelectionSystem" type="Node2D"]
 script = ExtResource( 1 )
 selectActionName = "controls_select"
+orderToolAction = "controls_order_tool_action"
+orderToolCancel = "controls_order_tool_cancel"
 additiveModifier = "controls_additive"
 controlGroupEdit = "controls_group_edit"
 contextOrder = "controls_context_order"

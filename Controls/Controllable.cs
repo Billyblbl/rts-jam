@@ -8,6 +8,7 @@ public class Controllable : Node {
 	[Export] public NodePath hoverIndicatorPath;
 	[Export] public NodePath selectIndicatorPath;
 	[Export] public Rect2 selectArea;
+	[Export] public OrderBlueprint[] availableOrders = new OrderBlueprint[0];
 
 	public Sprite hoverIndicator;
 	public Sprite selectIndicator;

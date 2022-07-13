@@ -1,7 +1,7 @@
 using Godot;
 
 public class MoveOrder : Order {
-	public MoveOrder(Vector2 position, Node parent) : base(parent, actor => new Move(actor, position)) {
+	public MoveOrder(Vector2 position) : base(actor => new Move(actor, position)) {
 		Name = GetType().Name;
 		GD.Print(string.Format("New Move Order at {0}", position));
 	}

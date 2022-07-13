@@ -4,7 +4,7 @@ using Godot;
 public class PatrolOrder : Order {
 
 	public List<Vector2> waypoints;
-	public PatrolOrder(Node parent, List<Vector2> waypoints) : base(parent, actor => new Patroling(actor, waypoints)) {
+	public PatrolOrder(List<Vector2> waypoints) : base(actor => new Patroling(actor, waypoints)) {
 		Name = GetType().Name;
 		this.waypoints = waypoints;
 	}

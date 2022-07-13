@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Controls/UI/OrderBlueprint.cs" type="Script" id=1]
+[ext_resource path="res://icons/move_icon.svg" type="Texture" id=2]
+[ext_resource path="res://Controls/UI/MoveOrderTool.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icons/move_iconCursor.svg" type="Texture" id=4]
+
+[resource]
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+cursor = ExtResource( 4 )
+iconHotspot = Vector2( 0.5, 0.5 )
+instance = ExtResource( 3 )

@@ -8,8 +8,8 @@ public class OrderButton : TextureButton {
 		tool = () => order.Instantiate<ControlToolState>(controls);
 		// controls
 		Expand = true;
+		Name = string.Format("{0}:{1}:{2}", nameof(OrderButton), order.ResourceName, order.ResourcePath);
 		Connect("pressed", this, nameof(OnPressed));
-		Name = order.ResourceName;
 		GD.Print(string.Format("{0}:{1}", nameof(OrderButton), order.ResourceName));
 	}
 

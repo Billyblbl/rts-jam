@@ -21,6 +21,7 @@ public class Patroling : BehaviorState {
 		if (subState is Move) {
 			var pathfind = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
 			if (EnemyInSight(out target)) {
+				GD.Print(string.Format("{0}, Attacking {1}", nameof(Patroling), target));
 				TransitionTo(() => new Attacking(actor, target));
 			} else if (pathfind.atDestination) {
 				TransitionTo(() => new Move(actor, waypoints[NextIndex(waypoints)]));
@@ -31,9 +32,18 @@ public class Patroling : BehaviorState {
 	}
 
 	public bool EnemyInSight(out Node2D enemy) {
-		//TODO implement factions & this
-		enemy = null;
-		return false;
+		var sight = actor.GetNode<Sight>(nameof(Sight));
+		if (sight.EnemyInSight.Count > 0) {
+			enemy = sight.EnemyInSight
+				.OrderBy(e => e.bodyNode.GlobalPosition.DistanceSquaredTo(actor.GlobalPosition))
+				.Take(1)
+				.Single()
+				.bodyNode;
+			return true;
+		} else {
+			enemy = null;
+			return false;
+		}
 	}
 
 

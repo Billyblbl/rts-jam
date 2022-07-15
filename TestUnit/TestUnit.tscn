@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Movement/PathFindAgent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Controls/Controllable.cs" type="Script" id=2]
@@ -16,6 +16,10 @@
 [ext_resource path="res://Controls/UI/StopOrder.tres" type="Resource" id=14]
 [ext_resource path="res://Engineer_Bot-assets/Bot_Engineer_V1.png" type="Texture" id=15]
 [ext_resource path="res://Combat/player_team.tres" type="Resource" id=16]
+[ext_resource path="res://Combat/Sight.cs" type="Script" id=17]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 500.0
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.0
@@ -28,8 +32,19 @@ body = NodePath("KinematicBody2D")
 selectArea = Rect2( -32, -32, 64, 64 )
 availableOrders = [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ]
 team = ExtResource( 16 )
+collisionMasks = [ NodePath("KinematicBody2D/Sight") ]
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+collision_layer = 2
+collision_mask = 15
+
+[node name="Sight" type="Area2D" parent="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 17 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D/Sight"]
+shape = SubResource( 2 )
 
 [node name="hoverIndicator" type="Sprite" parent="KinematicBody2D"]
 visible = false
@@ -60,7 +75,7 @@ seekDistance = 75.0
 [node name="LifeTime_Dying" type="Timer" parent="KinematicBody2D"]
 one_shot = true
 script = ExtResource( 5 )
-scope = NodePath("..")
+scope = NodePath("../..")
 
 [node name="Health" type="Node" parent="KinematicBody2D"]
 script = ExtResource( 6 )

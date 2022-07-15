@@ -12,6 +12,9 @@ public class Controllable : Node {
 	[Export] public OrderBlueprint[] availableOrders = new OrderBlueprint[0];
 	[Export] public Team team;
 
+	[Export] public NodePath[] collisionMasks; 
+	public CollisionObject2D[] collisionMaskNodes;
+
 	public Sprite hoverIndicator;
 	public Sprite selectIndicator;
 	public BehaviorState currentBehavior;
@@ -57,6 +60,10 @@ public class Controllable : Node {
 		bodyNode.CollisionLayer = team.layer;
 		currentBehavior = new BehaviorState(bodyNode);
 		team.army.Add(this);
+		collisionMaskNodes = collisionMasks.Select(m => GetNode<CollisionObject2D>(m)).ToArray();
+		foreach (var col in collisionMaskNodes) {
+			col.CollisionMask = ~team.layer;
+		}
 	}
 
 	public override void _EnterTree() {

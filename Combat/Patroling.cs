@@ -21,13 +21,16 @@ public class Patroling : BehaviorState {
 		if (subState is Move) {
 			var pathfind = actor.GetNode<PathFindAgent>(nameof(PathFindAgent));
 			if (EnemyInSight(out target)) {
-				GD.Print(string.Format("{0}, Attacking {1}", nameof(Patroling), target));
 				TransitionTo(() => new Attacking(actor, target));
 			} else if (pathfind.atDestination) {
 				TransitionTo(() => new Move(actor, waypoints[NextIndex(waypoints)]));
 			}
-		} else if (subState is Attacking && !EnemyInSight(out var _)) {
-			TransitionTo(() => new Move(actor, waypoints[CurrentIndex(waypoints)]));
+		} else if (subState is Attacking) {
+			if (!EnemyInSight(out var _)) {
+				TransitionTo(() => new Move(actor, waypoints[CurrentIndex(waypoints)]));
+			} else {
+				subState.UpdateState(target);
+			}
 		}
 	}
 

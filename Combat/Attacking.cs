@@ -12,6 +12,7 @@ public class Attacking : BehaviorState {
 
 	public void UpdateAttack(Node2D target) {
 		var subState = currentSubState;
+		GD.Print(string.Format("Distance To Target {0}, attack under {1}", actor.GlobalPosition.DistanceTo(target.GlobalPosition), actor.GetNode<Weapon>(nameof(Weapon)).attackRange));
 		if (subState is Follow && targetInRange(target)) {
 			TransitionTo(() => new TargetedFire(actor, target));
 		} else if (subState is TargetedFire && !targetInRange(target)) {

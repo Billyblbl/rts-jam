@@ -25,6 +25,7 @@ public class PathFindAgent : Node2D {
 	public void StopPathing() {
 		currentWaypoint = 0;
 		path = null;
+		SetPhysicsProcess(false);
 	}
 
 	public Vector2 _targetDestination = Vector2.Zero;
@@ -33,15 +34,13 @@ public class PathFindAgent : Node2D {
 			_targetDestination = value;
 			var nav = navSlot?.instance;
 			if (nav != null && self != null) {
-				GD.Print(string.Format("Pathing from {0} to {1}", self.GlobalPosition, targetDestination));
 				path = nav.GetSimplePath(self.GlobalPosition, targetDestination);
 				currentWaypoint = 0;
+				SetPhysicsProcess(true);
 				if (GlobalPosition.DistanceSquaredTo(path[currentWaypoint]) < waypointThreshold)
 					currentWaypoint++;
-				// GD.Print(string.Format("Path : {0}", path));
 			} else {
-				path = null;
-				currentWaypoint = 0;
+				StopPathing();
 			}
 		}
 	}

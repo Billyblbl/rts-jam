@@ -17,7 +17,7 @@ public abstract class Order : Node {
 
 	public virtual bool Start(Controllable actor) {
 		try {
-			var newNode = factory.Invoke(actor.GetParent<Node2D>());
+			var newNode = factory.Invoke(actor.bodyNode);
 			actor.currentBehavior.AddChild(newNode);
 			return true;
 		} catch (System.Exception e) {

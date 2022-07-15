@@ -33,7 +33,8 @@ public class PathFindAgent : Node2D {
 			_targetDestination = value;
 			var nav = navSlot?.instance;
 			if (nav != null && self != null) {
-				path = nav.GetSimplePath(self.Position, targetDestination);
+				GD.Print(string.Format("Pathing from {0} to {1}", self.GlobalPosition, targetDestination));
+				path = nav.GetSimplePath(self.GlobalPosition, targetDestination);
 				currentWaypoint = 0;
 				if (GlobalPosition.DistanceSquaredTo(path[currentWaypoint]) < waypointThreshold)
 					currentWaypoint++;
@@ -48,7 +49,7 @@ public class PathFindAgent : Node2D {
 	public float manhattanDistanceToDestination { get => self != null ? (self.Position - targetDestination).LengthSquared() : 0f; }
 
 	public override void _Ready() {
-		self = ((body != null) && !body.IsEmpty() ? GetNode<KinematicBody2D>(body) : throw new System.Exception(string.Format("No body found for {0}", Name)));
+		self = GetNodeOrNull<KinematicBody2D>(body) ?? throw new System.Exception(string.Format("No body found for {0}", Name));
 		steeringSensorsLeftNodes = steeringSensorsLeft.Select(p => GetNode<ProximitySensor>(p)).ToArray();
 		steeringSensorsRightNodes = steeringSensorsRight.Select(p => GetNode<ProximitySensor>(p)).ToArray();
 	}

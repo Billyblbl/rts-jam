@@ -10,7 +10,7 @@ public class AttackOrderTool : ControlToolState {
 			GetTree().SetInputAsHandled();
 
 			if (controls.hovered.Length == 1) {
-				controls.GiveOrderToSelection(new AttackOrder(controls.hovered.Single().GetParent<Node2D>()));
+				controls.GiveOrderToSelection(new AttackOrder(controls.hovered.Single().bodyNode));
 			} else {
 				//TODO Make an actual attack move order (this one will never end)
 				controls.GiveOrderToSelection(new PatrolOrder(new List<Vector2> { controls.GetGlobalMousePosition() }));

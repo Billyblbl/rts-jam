@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Combat/Team.cs" type="Script" id=1]
+[ext_resource path="res://Utils/Gauge.cs" type="Script" id=2]
+
+[sub_resource type="Resource" id=2]
+resource_name = "Energy"
+script = ExtResource( 2 )
+min = 0.0
+max = 1000.0
+_current = 1000.0
+
+[sub_resource type="Resource" id=1]
+resource_name = "Metal"
+script = ExtResource( 2 )
+min = 0.0
+max = 100.0
+_current = 100.0
+
+[resource]
+script = ExtResource( 1 )
+metal = SubResource( 1 )
+energy = SubResource( 2 )
+layer = 4

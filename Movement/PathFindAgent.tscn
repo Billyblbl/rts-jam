@@ -25,18 +25,21 @@ rayProximity = SubResource( 1 )
 rotation = -2.81544
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )
 
 [node name="RayCast2D" type="RayCast2D" parent="RayCasts/Left"]
 rotation = -1.68698
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )
 
 [node name="RayCast2D2" type="RayCast2D" parent="RayCasts/Left"]
 rotation = -2.41851
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )
 
 [node name="Right" type="Node2D" parent="RayCasts"]
@@ -45,16 +48,19 @@ script = ExtResource( 3 )
 rotation = -1.46065
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )
 
 [node name="RayCast2D5" type="RayCast2D" parent="RayCasts/Right"]
 rotation = -0.30513
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )
 
 [node name="RayCast2D6" type="RayCast2D" parent="RayCasts/Right"]
 rotation = -0.705979
 enabled = true
 cast_to = Vector2( 0, 75 )
+collision_mask = 7
 script = ExtResource( 3 )

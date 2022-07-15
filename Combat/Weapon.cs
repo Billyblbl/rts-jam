@@ -6,15 +6,19 @@ public class Weapon : Node2D {
 	[Export] public float attackRotation = 0f;
 	[Export] public float attackRange = 500f;
 	[Export] public PackedScene attack;
+	[Export] public NodePath body;
 	[Signal] public delegate void OnAttack();
 	public bool attacking = false;
 	float lastAttack = 0;
 	[Export] public bool enableDebugTrigger = false;
 
+	public CollisionObject2D bodyNode;
+
 	ulong start;
 	public override void _Ready() {
 		base._Ready();
 		start = OS.GetSystemTimeMsecs();
+		bodyNode = GetNode<CollisionObject2D>(body);
 	}
 
 	public override void _Process(float delta) {
@@ -31,6 +35,7 @@ public class Weapon : Node2D {
 		EmitSignal(nameof(OnAttack));
 		lastAttack = now;
 		var newAttack = attack.InstanceOrNull<Attack>();
+		newAttack.CollisionMask = ~bodyNode.CollisionLayer;
 		newAttack.GlobalRotationDegrees = RotationDegrees + attackRotation;
 		newAttack.GlobalPosition = ToGlobal(attackSpawn);
 		GetTree().Root.AddChild(newAttack);

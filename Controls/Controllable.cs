@@ -7,12 +7,15 @@ using System.Linq;
 public class Controllable : Node {
 	[Export] public NodePath hoverIndicatorPath;
 	[Export] public NodePath selectIndicatorPath;
+	[Export] public NodePath body;
 	[Export] public Rect2 selectArea;
 	[Export] public OrderBlueprint[] availableOrders = new OrderBlueprint[0];
+	[Export] public Team team;
 
 	public Sprite hoverIndicator;
 	public Sprite selectIndicator;
 	public BehaviorState currentBehavior;
+	public CollisionObject2D bodyNode;
 
 	Queue<Order> orders = new Queue<Order>();
 	public Order currentOrder { get => orders.Count > 0 ? orders.Peek() : null; }
@@ -50,7 +53,10 @@ public class Controllable : Node {
 		base._Ready();
 		hoverIndicator = GetNode<Sprite>(hoverIndicatorPath);
 		selectIndicator = GetNode<Sprite>(selectIndicatorPath);
-		currentBehavior = new BehaviorState(GetParent<Node2D>());
+		bodyNode = GetNode<CollisionObject2D>(body);
+		bodyNode.CollisionLayer = team.layer;
+		currentBehavior = new BehaviorState(bodyNode);
+		team.army.Add(this);
 	}
 
 	public override void _EnterTree() {

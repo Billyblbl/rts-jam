@@ -15,6 +15,7 @@ public class ControlSystem : Node2D {
 	[Export] public string[] controlGroupKeys;
 	[Export] public Color selectionRectangleColorFill = new Color(0f, 1f, 0f, .5f);
 	[Export] public Color selectionRectangleColorBorder = Colors.Green;
+	[Export] public Team team;
 
 	[Signal] public delegate void SelectionChanged();
 	public event SelectionChanged OnSelectionChanged;
@@ -29,14 +30,6 @@ public class ControlSystem : Node2D {
 	public Controllable[] selection = new Controllable[0];
 	public Controllable[] hovered = new Controllable[0];
 	public Controllable[][] controlGroups = new Controllable[10][];
-
-	// public Texture cursor { set {
-	// 	if (value == null) {
-	// 		Input.SetDefaultCursorShape();
-	// 	} else {
-	// 		Input.SetCustomMouseCursor(value, hotspot:value.GetSize()/2f);
-	// 	}
-	// }}
 
 	public void GiveOrderToSelection(Order order, bool additive) {
 		foreach (var controllable in selection) {
@@ -96,7 +89,10 @@ public class ControlSystem : Node2D {
 		//TODO different unit orders
 
 		var target = GetSelectableUnderCursor(position);
-		if (target != null) return new AttackOrder(target.GetParent<Node2D>());
+		if (target != null) {
+			if (target.team != team) return new AttackOrder(target.bodyNode);
+			else {}//TODO Assist/Repair/Allocate order
+		}
 
 		return new MoveOrder(position);
 	}
@@ -122,6 +118,10 @@ public class ControlSystem : Node2D {
 		OnSelectionChanged += () => EmitSignal(nameof(SelectionChanged));
 		currentTool = new ControlToolState();
 		currentTool.controls = this;
+		team?.ActivateStorageAutoExpand();
+		if (team == null) {
+			GD.PrintErr("No Team in ControlSystem");
+		}
 	}
 
 	bool select;
@@ -141,17 +141,44 @@ public class ControlSystem : Node2D {
 	Controllable[] ResolveSelection(Controllable[] oldSelection = null) {
 		var newSelection = oldSelection != null ? new List<Controllable>(oldSelection) : new List<Controllable>();
 		if (dragging) {
-			newSelection.AddRange(GetSelectablesInRect(selectionRect).Where(s => !newSelection.Contains(s)));
+			newSelection.AddRange(GetSelectablesInRect(selectionRect, new Team[] { team } ).Where(s => !newSelection.Contains(s)));
 		}
-		var underCursor = GetSelectableUnderCursor(selectEnd);
+		var underCursor = GetSelectableUnderCursor(selectEnd, new Team[] { team });
 		if (underCursor != null && !newSelection.Contains(underCursor)) newSelection.Add(underCursor);
 		return newSelection.ToArray();
 	}
 
-	Controllable[] GetSelectablesInRect(Rect2 rect) => Controllable.Population.Where(s => rect.HasPoint(s.GetParent<Node2D>().GlobalPosition)).ToArray();
-	Controllable GetSelectableUnderCursor(Vector2 cursor) => Controllable.Population
-			.Where(s => s.selectArea.HasPoint(s.GetParent<Node2D>().ToLocal(cursor)))
-			.Aggregate<Controllable, Controllable>(null, (smaller, next) => smaller != null && (smaller.GetParent<Node2D>().GlobalPosition - cursor).Length() < (next.GetParent<Node2D>().GlobalPosition - cursor).Length() ? smaller : next);
+	Controllable[] GetSelectablesInRect(Rect2 rect, IEnumerable<Team> teams = null) {
+		if (teams == null) {
+			return Controllable.Population
+				.Where(c => rect.HasPoint(c.bodyNode.GlobalPosition))
+				.ToArray();
+		} else {
+			return teams
+				.Select(t => t.army)
+				.Cast<IEnumerable<Controllable>>()
+				.SelectMany(a => a)
+				.Where(unit => rect.HasPoint(unit.bodyNode.GlobalPosition))
+				.ToArray();
+		}
+	}
+
+	Controllable GetSelectableUnderCursor(Vector2 cursor, IEnumerable<Team> teams = null) {
+		if (teams == null) {
+			return Controllable.Population
+				.Where(s => s.selectArea.HasPoint(s.bodyNode.ToLocal(cursor)))
+				.OrderBy(s => s.bodyNode.GlobalPosition.DistanceSquaredTo(cursor))
+				.ElementAtOrDefault(0);
+		} else {
+			return teams
+				.Select(t => t.army).ToList()
+				.Cast<IEnumerable<Controllable>>().ToList()
+				.SelectMany(a => a).ToList()
+				.Where(s => s.selectArea.HasPoint(s.bodyNode.ToLocal(cursor))).ToList()
+				.OrderBy(s => s.bodyNode.GlobalPosition.DistanceSquaredTo(cursor)).ToList()
+				.ElementAtOrDefault(0);
+		}
+	}
 
 	public override void _Draw() {
 		if (dragging) {

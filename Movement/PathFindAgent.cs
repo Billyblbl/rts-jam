@@ -53,7 +53,7 @@ public class PathFindAgent : Node2D {
 		steeringSensorsRightNodes = steeringSensorsRight.Select(p => GetNode<ProximitySensor>(p)).ToArray();
 	}
 
-	Vector2 velocity;
+	public Vector2 velocity;
 
 	float Participation(RayCast2D ray) {
 		if (ray.IsColliding()) {

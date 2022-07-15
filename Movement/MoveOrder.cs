@@ -6,6 +6,14 @@ public class MoveOrder : Order {
 		GD.Print(string.Format("New Move Order at {0}", position));
 	}
 
-	public override bool Update(Controllable actor) => !actor.bodyNode.GetNode<PathFindAgent>(nameof(PathFindAgent)).atDestination;
+	public override bool Update(Controllable actor) {
+		try {
+			actor.currentBehavior.UpdateState(this);
+			return !actor.bodyNode.GetNode<PathFindAgent>(nameof(PathFindAgent)).atDestination;
+		} catch (System.Exception e) {
+			GD.PrintErr(e);
+			return false;
+		}
+	}
 
 }

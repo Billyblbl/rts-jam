@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Movement/PathFindAgent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Controls/Controllable.cs" type="Script" id=2]
@@ -45,6 +45,8 @@
 [ext_resource path="res://Engineer_Bot/Engineer_Bot_Player/Engineer_Bot_Player_04.png" type="Texture" id=43]
 [ext_resource path="res://Utils/DirectionalAnimatedSprite.cs" type="Script" id=44]
 [ext_resource path="res://Units/animatedSpriteLabel.cs" type="Script" id=45]
+[ext_resource path="res://Units/BuildingTool.cs" type="Script" id=46]
+[ext_resource path="res://Controls/UI/RepairOrderBlueprint.tres" type="Resource" id=47]
 
 [sub_resource type="SpriteFrames" id=4]
 resource_name = "Idle"
@@ -52,16 +54,6 @@ animations = [ {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
 "name": "default32",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 21 ) ],
-"loop": true,
-"name": "default22",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 20 ) ],
-"loop": true,
-"name": "default25",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 33 ) ],
@@ -74,29 +66,9 @@ animations = [ {
 "name": "default13",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 37 ) ],
-"loop": true,
-"name": "default02",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 25 ) ],
 "loop": true,
 "name": "default29",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "default24",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 26 ) ],
-"loop": true,
-"name": "default19",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ) ],
-"loop": true,
-"name": "default27",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 29 ) ],
@@ -104,9 +76,14 @@ animations = [ {
 "name": "default16",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 41 ) ],
+"frames": [ ExtResource( 21 ) ],
 "loop": true,
-"name": "default01",
+"name": "default22",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ) ],
+"loop": true,
+"name": "default27",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 30 ) ],
@@ -124,9 +101,14 @@ animations = [ {
 "name": "default17",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 32 ) ],
+"frames": [ ExtResource( 41 ) ],
 "loop": true,
-"name": "default04",
+"name": "default01",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ) ],
+"loop": true,
+"name": "default02",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 19 ) ],
@@ -134,19 +116,19 @@ animations = [ {
 "name": "default26",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 35 ) ],
-"loop": true,
-"name": "default12",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 24 ) ],
 "loop": true,
 "name": "default30",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 36 ) ],
+"frames": [ ExtResource( 32 ) ],
 "loop": true,
-"name": "default07",
+"name": "default04",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 35 ) ],
+"loop": true,
+"name": "default12",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 31 ) ],
@@ -154,19 +136,14 @@ animations = [ {
 "name": "default10",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 40 ) ],
-"loop": true,
-"name": "default09",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "default14",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 27 ) ],
 "loop": true,
 "name": "default31",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ) ],
+"loop": true,
+"name": "default19",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 42 ) ],
@@ -179,6 +156,21 @@ animations = [ {
 "name": "default18",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 20 ) ],
+"loop": true,
+"name": "default25",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 36 ) ],
+"loop": true,
+"name": "default07",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 40 ) ],
+"loop": true,
+"name": "default09",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 39 ) ],
 "loop": true,
 "name": "default08",
@@ -189,14 +181,24 @@ animations = [ {
 "name": "default05",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "default24",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "default14",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "default15",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 23 ) ],
 "loop": true,
 "name": "default28",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 22 ) ],
-"loop": true,
-"name": "default20",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 34 ) ],
@@ -204,9 +206,9 @@ animations = [ {
 "name": "default06",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 17 ) ],
+"frames": [ ExtResource( 22 ) ],
 "loop": true,
-"name": "default15",
+"name": "default20",
 "speed": 5.0
 } ]
 
@@ -218,16 +220,6 @@ animations = [ {
 "name": "default32",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 21 ) ],
-"loop": true,
-"name": "default22",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 20 ) ],
-"loop": true,
-"name": "default25",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
 "name": "default11",
@@ -238,29 +230,9 @@ animations = [ {
 "name": "default13",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 37 ) ],
-"loop": true,
-"name": "default02",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 25 ) ],
 "loop": true,
 "name": "default29",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "default24",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 26 ) ],
-"loop": true,
-"name": "default19",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ) ],
-"loop": true,
-"name": "default27",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 29 ) ],
@@ -268,9 +240,14 @@ animations = [ {
 "name": "default16",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 41 ) ],
+"frames": [ ExtResource( 21 ) ],
 "loop": true,
-"name": "default01",
+"name": "default22",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ) ],
+"loop": true,
+"name": "default27",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 30 ) ],
@@ -288,9 +265,14 @@ animations = [ {
 "name": "default17",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 32 ) ],
+"frames": [ ExtResource( 41 ) ],
 "loop": true,
-"name": "default04",
+"name": "default01",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ) ],
+"loop": true,
+"name": "default02",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 19 ) ],
@@ -298,19 +280,19 @@ animations = [ {
 "name": "default26",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 35 ) ],
-"loop": true,
-"name": "default12",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 24 ) ],
 "loop": true,
 "name": "default30",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 36 ) ],
+"frames": [ ExtResource( 32 ) ],
 "loop": true,
-"name": "default07",
+"name": "default04",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 35 ) ],
+"loop": true,
+"name": "default12",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 31 ) ],
@@ -318,19 +300,14 @@ animations = [ {
 "name": "default10",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 40 ) ],
-"loop": true,
-"name": "default09",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "default14",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 27 ) ],
 "loop": true,
 "name": "default31",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ) ],
+"loop": true,
+"name": "default19",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 42 ) ],
@@ -343,6 +320,21 @@ animations = [ {
 "name": "default18",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 20 ) ],
+"loop": true,
+"name": "default25",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 36 ) ],
+"loop": true,
+"name": "default07",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 40 ) ],
+"loop": true,
+"name": "default09",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 39 ) ],
 "loop": true,
 "name": "default08",
@@ -353,14 +345,24 @@ animations = [ {
 "name": "default05",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "default24",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "default14",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "default15",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 23 ) ],
 "loop": true,
 "name": "default28",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 22 ) ],
-"loop": true,
-"name": "default20",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 34 ) ],
@@ -368,9 +370,9 @@ animations = [ {
 "name": "default06",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 17 ) ],
+"frames": [ ExtResource( 22 ) ],
 "loop": true,
-"name": "default15",
+"name": "default20",
 "speed": 5.0
 } ]
 
@@ -384,13 +386,16 @@ min = 0.0
 max = 100.0
 _current = 100.0
 
+[sub_resource type="CircleShape2D" id=6]
+radius = 50.0
+
 [node name="Bot" type="Node2D"]
 script = ExtResource( 2 )
 hoverIndicatorPath = NodePath("KinematicBody2D/hoverIndicator")
 selectIndicatorPath = NodePath("KinematicBody2D/selectIndicator")
 body = NodePath("KinematicBody2D")
 selectArea = Rect2( -32, -32, 64, 64 )
-availableOrders = [ ExtResource( 13 ), ExtResource( 14 ) ]
+availableOrders = [ ExtResource( 13 ), ExtResource( 47 ), ExtResource( 14 ) ]
 team = ExtResource( 16 )
 collisionMasks = [  ]
 
@@ -469,3 +474,13 @@ margin_right = 241.0
 margin_bottom = 57.0
 script = ExtResource( 3 )
 pathfind = NodePath("../PathFindAgent")
+
+[node name="BuildingTool" type="Area2D" parent="KinematicBody2D"]
+script = ExtResource( 46 )
+repairSpeed = 5.0
+metalConsumption = 10.0
+energyConsumption = 10.0
+controllable = NodePath("../..")
+
+[node name="Tool Range" type="CollisionShape2D" parent="KinematicBody2D/BuildingTool"]
+shape = SubResource( 6 )
